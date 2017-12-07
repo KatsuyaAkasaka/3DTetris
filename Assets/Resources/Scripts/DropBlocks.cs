@@ -29,7 +29,6 @@ public class DropBlocks : MonoBehaviour {
 	void Update () 
 	{
 		if (!finished_this_obj) {
-			print (timer);
 			if (!confirmed) {
 				timer += Time.deltaTime;
 				if (timer > drop_interval) {		//drop_intervalごとにdrop_down
@@ -45,60 +44,19 @@ public class DropBlocks : MonoBehaviour {
 	//ステージを全探索して、現在落下中のブロックを見つけたら一つ下に落とす
 	void drop_down()
 	{
-		int[,,] tmp_stage = StageState.stage;
-
-		bool able_to_drop = drop_or_not();
-
+		//落とせるかどうか確認
 		//何かに引っかかったら、2を全て1にして確定。落とせたら、座標移動させる
-		if (able_to_drop) {
+		if (StageState.CouldMoveBlock ("drop")) {
+			//落とせたら、次のdrop_intervalまで暫定の2のままにさせておく
 			GameController.nowBlock.transform.position -= down_amount;
 		} else {
-			confirm_stage (tmp_stage);
+			//落とせなかったらstageの2を全て1にしてfinish
+			StageState.confirm_stage ();
 			confirmed = true;
 			finished_this_obj = true;
 			Debug.Log ("確定");
 		} 
 	//	t.text = able_to_drop.ToString();
-
-
-		//落とせたら、次のdrop_intervalまで暫定の2のままにさせておく
-	}
-
-
-	//2を1に書き換えて、ステージ情報を確定させる
-	void confirm_stage(int[,,] stage)
-	{
-		for (int i = 0; i < STAGE_SIZE_X; i++) {
-			for (int j = 0; j < STAGE_SIZE_Y; j++) {
-				for (int k = 0; k < STAGE_SIZE_Z; k++) {
-					if (StageState.stage [i, j, k] == 2) {
-						StageState.stage [i, j, k] = 1;
-					}
-				}
-			}
-		}
-	}
-
-
-	//全探索させて、2をdropさせる。何かに引っかかってる場合はfalse。うまく落とせたらtrue
-	bool drop_or_not()
-	{
-		//全探索
-		for (int i = 0; i < STAGE_SIZE_X; i++) {
-			for (int j = 0; j < STAGE_SIZE_Y; j++) {
-				for (int k = 0; k < STAGE_SIZE_Z; k++) {
-					if (StageState.stage [i, j, k] == 2) {
-						if (StageState.stage [i, j - 1, k] == 1) {		//動かしてるブロックの下にすでにobjectがあった場合false
-							return false;
-						} else {
-							StageState.stage [i, j - 1, k] = 2;			//2をずらす
-							StageState.stage [i, j, k] = 0;
-						}
-					}
-				}
-			}
-		}
-		return true;
 	}
 
 }
