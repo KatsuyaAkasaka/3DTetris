@@ -96,7 +96,7 @@ public class StageState : MonoBehaviour {
 			return true;
 
 		case "up":
-			for (int i = STAGE_SIZE_Z; i >= 0; i--) {
+			for (int i = STAGE_SIZE_Z-1; i >= 0; i--) {
 				for (int j = 0; j < STAGE_SIZE_X; j++) {
 					for (int k = 0; k < STAGE_SIZE_Y; k++) {
 						if (StageState.stage [j, k, i] == 2) {
@@ -123,7 +123,7 @@ public class StageState : MonoBehaviour {
 								return false;
 							} else {
 								StageState.stage [j, k, i-1] = 2;			//2をずらす
-								StageState.stage [i, k, j] = 0;
+								StageState.stage [j, k, i] = 0;
 							}
 						}
 					}
