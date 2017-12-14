@@ -48,7 +48,10 @@ public class DropBlocks : MonoBehaviour {
 		//何かに引っかかったら、2を全て1にして確定。落とせたら、座標移動させる
 		if (StageState.CouldMoveBlock ("drop")) {
 			//落とせたら、次のdrop_intervalまで暫定の2のままにさせておく
-			GameController.nowBlock.transform.position -= down_amount;
+			StageState.MoveBlock("drop");
+//			for (int i = 0; i < GameController.nowBlockPos.Length; i++) {
+//				Debug.Log (GameController.nowBlockPos [i].x + "," + GameController.nowBlockPos [i].y + "," + GameController.nowBlockPos [i].z);
+//			}
 		} else {
 			//落とせなかったらstageの2を全て1にしてfinish
 			StageState.confirm_stage ();

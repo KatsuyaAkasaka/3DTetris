@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour {
 	public static bool readyToStart = true;	//if stage created, true
 	//public GameObject text;
 	public static GameObject nowBlock;	//now dropping block
+	public static Vector3[] nowBlockPos;
+
 
 	// Use this for initialization
 	void Start () {
