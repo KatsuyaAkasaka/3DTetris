@@ -12,20 +12,23 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown(KeyCode.LeftArrow)){
-			move ("left");
-		}
-		if (Input.GetKeyDown(KeyCode.RightArrow)){
-			move ("right");
-		}
-		if (Input.GetKeyDown(KeyCode.UpArrow)){
-			move ("up");
-		}
-		if (Input.GetKeyDown(KeyCode.DownArrow)){
-			move ("down");
-		}
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			move ("rotate");
+		//ステージが確定していたらユーザは操作不能状態にする
+		if (!DropBlocks.confirmed) {
+			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
+				move ("left");
+			}
+			if (Input.GetKeyDown (KeyCode.RightArrow)) {
+				move ("right");
+			}
+			if (Input.GetKeyDown (KeyCode.UpArrow)) {
+				move ("up");
+			}
+			if (Input.GetKeyDown (KeyCode.DownArrow)) {
+				move ("down");
+			}
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				move ("rotate");
+			}
 		}
 	}
 

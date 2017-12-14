@@ -31,7 +31,7 @@ public class DropBlocks : MonoBehaviour {
 		if (!finished_this_obj) {
 			if (!confirmed) {
 				timer += Time.deltaTime;
-				if (timer > drop_interval) {		//drop_intervalごとにdrop_down
+				if (timer > drop_interval) {		//stage確定してからdrop_interval秒後にdrop_down
 					drop_down ();
 					timer = 0f;
 				}
