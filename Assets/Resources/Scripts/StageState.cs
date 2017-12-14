@@ -35,6 +35,7 @@ public class StageState : MonoBehaviour {
 	}
 
 	//指定した方向に動かせるならtrueを返す
+	//動かせないならstageを初期に戻してfalseを返す
 	public static bool CouldMoveBlock(string str)
 	{
 		int[,,] tmp_stage = stage; 
@@ -77,7 +78,7 @@ public class StageState : MonoBehaviour {
 			return true;
 
 		case "right":
-			for (int i = STAGE_SIZE_X; i >= 0; i--) {
+			for (int i = STAGE_SIZE_X-1; i >= 0; i--) {
 				for (int j = 0; j < STAGE_SIZE_Z; j++) {
 					for (int k = 0; k < STAGE_SIZE_Y; k++) {
 						if (StageState.stage [i, k, j] == 2) {
@@ -150,6 +151,7 @@ public class StageState : MonoBehaviour {
 	}
 
 	//ブロックの座標移動
+	//システムの座標は移動しない
 	public static void MoveBlock(string direction)
 	{
 		switch (direction) {

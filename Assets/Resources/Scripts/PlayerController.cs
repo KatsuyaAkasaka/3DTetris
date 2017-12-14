@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
 	void move(string key)
 	{
 		if (StageState.CouldMoveBlock (key)) {
-			StageState.confirm_stage ();
+			Debug.Log ("could move to the direction you pushed");
 		}
 	}
 }
