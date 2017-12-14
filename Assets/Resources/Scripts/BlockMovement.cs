@@ -19,8 +19,4 @@ public class BlockMovement : MonoBehaviour {
 		
 	}
 
-	public static void MoveBlock(string str)
-	{
-	}
-
 }

@@ -35,116 +35,70 @@ public class StageState : MonoBehaviour {
 	}
 
 	//指定した方向に動かせるならtrueを返す
-	//動かせないならstageを初期に戻してfalseを返す
+	//動かせないならnowBlockPosを初期に戻してfalseを返す
+	//動ける場合は、centerposも更新
 	public static bool CouldMoveBlock(string str)
 	{
-		int[,,] tmp_stage = stage; 
-		switch (str) {
-		case "drop":
-		//全探索
-			for (int i = 0; i < STAGE_SIZE_X; i++) {
-				for (int j = 0; j < STAGE_SIZE_Y; j++) {
-					for (int k = 0; k < STAGE_SIZE_Z; k++) {
-						if (StageState.stage [i, j, k] == 2) {
-							if (StageState.stage [i, j - 1, k] == 1) {		//動かしてるブロックの下にすでにobjectがあった場合false
-								stage = tmp_stage;			//stageを変更前に戻す
-								return false;
-							} else {
-								StageState.stage [i, j - 1, k] = 2;			//2をずらす
-								StageState.stage [i, j, k] = 0;
-							}
-						}
-					}
-				}
-			}
-			return true;
-		
-		case "left":
-			for (int i = 0; i < STAGE_SIZE_X; i++) {
-				for (int j = 0; j < STAGE_SIZE_Z; j++) {
-					for (int k = 0; k < STAGE_SIZE_Y; k++) {
-						if (StageState.stage [i, k, j] == 2) {
-							if (StageState.stage [i - 1, k, j] == 1) {		//動かしてるブロックの左にすでにobjectがあった場合false
-								stage = tmp_stage;			//stageを変更前に戻す
-								return false;
-							} else {
-								StageState.stage [i - 1, k, j] = 2;			//2をずらす
-								StageState.stage [i, k, j] = 0;
-							}
-						}
-					}
-				}
-			}
-			return true;
-
-		case "right":
-			for (int i = STAGE_SIZE_X-1; i >= 0; i--) {
-				for (int j = 0; j < STAGE_SIZE_Z; j++) {
-					for (int k = 0; k < STAGE_SIZE_Y; k++) {
-						if (StageState.stage [i, k, j] == 2) {
-							if (StageState.stage [i + 1, k, j] == 1) {		//動かしてるブロックの右にすでにobjectがあった場合false
-								stage = tmp_stage;			//stageを変更前に戻す
-								return false;
-							} else {
-								StageState.stage [i + 1, k, j] = 2;			//2をずらす
-								StageState.stage [i, k, j] = 0;
-							}
-						}
-					}
-				}
-			}
-			return true;
-
-		case "up":
-			for (int i = STAGE_SIZE_Z-1; i >= 0; i--) {
-				for (int j = 0; j < STAGE_SIZE_X; j++) {
-					for (int k = 0; k < STAGE_SIZE_Y; k++) {
-						if (StageState.stage [j, k, i] == 2) {
-							if (StageState.stage [j, k, i+1] == 1) {		//動かしてるブロックの下にすでにobjectがあった場合false
-								stage = tmp_stage;			//stageを変更前に戻す
-								return false;
-							} else {
-								StageState.stage [j, k, i+1] = 2;			//2をずらす
-								StageState.stage [j, k, i] = 0;
-							}
-						}
-					}
-				}
-			}
-			return true;
-
-		case "down":
-			for (int i = 0; i < STAGE_SIZE_Z; i++) {
-				for (int j = 0; j < STAGE_SIZE_X; j++) {
-					for (int k = 0; k < STAGE_SIZE_Y; k++) {
-						if (StageState.stage [j, k, i] == 2) {
-							if (StageState.stage [j, k, i-1] == 1) {		//動かしてるブロックの下にすでにobjectがあった場合false
-								stage = tmp_stage;			//stageを変更前に戻す
-								return false;
-							} else {
-								StageState.stage [j, k, i-1] = 2;			//2をずらす
-								StageState.stage [j, k, i] = 0;
-							}
-						}
-					}
-				}
-			}
-			return true;
-
-		default:
-			return false;
+		//一度tmpに保存
+		Vector3[] tmpBlockPos = new Vector3[4];
+		for (int i = 0; i < tmpBlockPos.Length; i++) {
+			tmpBlockPos [i] = GameController.nowBlockPos [i];
 		}
+		for (int i = 0; i < tmpBlockPos.Length; i++) {
+		
+			switch (str) {
+			case "drop":
+				GameController.nowBlockPos [i] += new Vector3 (0, -1, 0);
+				break;
+			case "left":
+				GameController.nowBlockPos[i] += new Vector3 (-1, 0, 0);
+				break;
+			case "right":
+				GameController.nowBlockPos[i] += new Vector3 (1, 0, 0);
+				break;
+			case "up":
+				GameController.nowBlockPos[i] += new Vector3 (0, 0, 1);
+				break;
+			case "down":
+				GameController.nowBlockPos[i] += new Vector3 (0, 0, -1);
+				break;
+			default:
+				break;
+			}
+			int posx = (int)GameController.nowBlockPos[i].x;
+			int posy = (int)GameController.nowBlockPos[i].y;
+			int posz = (int)GameController.nowBlockPos[i].z;
+			if (i == 0) {
+				Debug.Log (posx + ", " + posy + "," + posz);
+			}
+			//もし動かせなかったらもどす
+			if (stage[posx,posy,posz] == 1) {
+				//ダメなら保存したtmpを入れて終わり
+				for (int j = 0; j < tmpBlockPos.Length; j++) {
+					GameController.nowBlockPos [j] = tmpBlockPos [j];
+				}
+				return false;
+			}
+		}
+		//動かせたらnowBlockPosはそのままにしてtrue
+		return true;
 	}
 
 	//stageに現在書かれている2を全て1にしてステージ情報を確定させる
+	//システムの座標の移動
+	//ブロックの座標の移動はmoveBlock
 	public static void confirm_stage() 
 	{
-		for (int i = 0; i < STAGE_SIZE_X; i++) {
-			for (int j = 0; j < STAGE_SIZE_Y; j++) {
-				for (int k = 0; k < STAGE_SIZE_Z; k++) {
-					if (StageState.stage [i, j, k] == 2) {
-						StageState.stage [i, j, k] = 1;
-					}
+		for (int i = 0; i < GameController.nowBlockPos.Length; i++) {
+			int posx = (int)GameController.nowBlockPos [i].x;
+			int posy = (int)GameController.nowBlockPos [i].y;
+			int posz = (int)GameController.nowBlockPos [i].z;
+			StageState.stage [posx, posy, posz] = 1;
+		}
+		for (int i = 0; i < STAGE_SIZE_X; i ++){
+			for (int j = 0; j < STAGE_SIZE_Y; j++){
+				for (int k = 0; k < STAGE_SIZE_Z; k++){
+					Debug.Log(i + "," + j + "," + k + ", = " + stage[i,j,k]);
 				}
 			}
 		}
@@ -152,6 +106,7 @@ public class StageState : MonoBehaviour {
 
 	//ブロックの座標移動
 	//システムの座標は移動しない
+	//システムの座標の移動はconfirm_stage
 	public static void MoveBlock(string direction)
 	{
 		switch (direction) {
@@ -169,6 +124,9 @@ public class StageState : MonoBehaviour {
 			break;
 		case "down":
 			GameController.nowBlock.transform.position -= new Vector3 (0f, 0f, moveAmount);
+			break;
+		case "rotate_x":
+			GameController.nowBlock.transform.rotation = Quaternion.Euler (90, 0, 0);
 			break;
 		default:
 			break;

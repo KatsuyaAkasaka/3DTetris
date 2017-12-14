@@ -46,6 +46,7 @@ public class BlockGenerator : MonoBehaviour {
 
 
 	//それぞれのブロックに応じた形のベクトルを作成する
+	//回転中心はこの作成した配列の[0]になる
 	void data_maker(string name)
 	{
 		switch (name) {
@@ -58,7 +59,10 @@ public class BlockGenerator : MonoBehaviour {
 			};
 			break;
 		}
-		stage_update (blockpos);
+
+		//static変数に代入して参照できるように
+		GameController.nowBlockPos = blockpos;
+		//stage_update (blockpos);
 	}
 
 
@@ -70,10 +74,10 @@ public class BlockGenerator : MonoBehaviour {
 
 
 	//渡された配列に入っているベクトルの位置を2に書き換える
-	void stage_update(Vector3[] ary)
-	{
-		for (int i = 0; i < ary.Length; i++) {
-			StageState.stage [(int)(ary[i].x), (int)(ary[i].y), (int)(ary[i].z)] = 2;
-		}
-	}
+//	void stage_update(Vector3[] ary)
+//	{
+//		for (int i = 0; i < ary.Length; i++) {
+//			StageState.stage [(int)(ary[i].x), (int)(ary[i].y), (int)(ary[i].z)] = 2;
+//		}
+//	}
 }

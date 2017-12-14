@@ -26,8 +26,11 @@ public class PlayerController : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.DownArrow)) {
 				move ("down");
 			}
+			if (Input.GetKeyDown (KeyCode.KeypadEnter)) {
+				move ("rotate_x");
+			}
 			if (Input.GetKeyDown (KeyCode.Space)) {
-				move ("rotate");
+				move ("rotate_y");
 			}
 		}
 	}
@@ -36,7 +39,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (StageState.CouldMoveBlock (key)) {
 			StageState.MoveBlock (key);
-			//Debug.Log ("could move to the direction you pushed");
 		}
 	}
 }
