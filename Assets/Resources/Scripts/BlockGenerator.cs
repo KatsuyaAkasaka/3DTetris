@@ -75,13 +75,5 @@ public class BlockGenerator : MonoBehaviour {
 		for (int i = 0; i < ary.Length; i++) {
 			StageState.stage [(int)(ary[i].x), (int)(ary[i].y), (int)(ary[i].z)] = 2;
 		}
-
-//		for (int i = 0; i < 8; i++) {
-//			for (int j = 0; j < 8-1; j++) {
-//				for (int k = 0; k < 8; k++) {
-//					Debug.Log (i + "," + j + "," + k + ", = "+ StageState.stage[i,j,k]);
-//				}
-//			}
-//		}
 	}
 }
