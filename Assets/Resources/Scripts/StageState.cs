@@ -62,6 +62,32 @@ public class StageState : MonoBehaviour {
 			case "down":
 				GameController.nowBlockPos[i] += new Vector3 (0, 0, -1);
 				break;
+			case "rotate_y":
+				int centerx = (int)GameController.nowBlockPos [0].x;
+				int centery = (int)GameController.nowBlockPos [0].y;
+				int centerz = (int)GameController.nowBlockPos [0].z;
+				int rerativex = (int)GameController.nowBlockPos [i].x - centerx;
+				int rerativey = (int)GameController.nowBlockPos [i].y - centery;
+				int rerativez = (int)GameController.nowBlockPos [i].z - centerz;
+				int ansx, ansz;
+				if (rerativex == 1) {
+					ansz = 1;
+				} else if (rerativex == -1) {
+					ansz = -1;
+				} else {
+					ansz = 0;
+				}
+				if (rerativez == 1) {
+					ansx = -1;
+				} else if ( rerativez == -1) {
+					ansx = 1;
+				} else {
+					ansx = 0;
+				}
+				GameController.nowBlockPos [i] = GameController.nowBlockPos [0] + new Vector3 (ansx, rerativey, ansz);		
+				break;
+
+
 			default:
 				break;
 			}
@@ -93,7 +119,7 @@ public class StageState : MonoBehaviour {
 			int posx = (int)GameController.nowBlockPos [i].x;
 			int posy = (int)GameController.nowBlockPos [i].y;
 			int posz = (int)GameController.nowBlockPos [i].z;
-			StageState.stage [posx, posy, posz] = 1;
+			StageState.stage [posx, posy, posz] = 1000000;
 		}
 		for (int i = 0; i < STAGE_SIZE_X; i ++){
 			for (int j = 0; j < STAGE_SIZE_Y; j++){
@@ -125,8 +151,8 @@ public class StageState : MonoBehaviour {
 		case "down":
 			GameController.nowBlock.transform.position -= new Vector3 (0f, 0f, moveAmount);
 			break;
-		case "rotate_x":
-			GameController.nowBlock.transform.rotation = Quaternion.Euler (90, 0, 0);
+		case "rotate_y":
+			GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 90);
 			break;
 		default:
 			break;
