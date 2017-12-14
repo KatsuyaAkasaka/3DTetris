@@ -55,14 +55,6 @@ public class DropBlocks : MonoBehaviour {
 			confirmed = true;
 			finished_this_obj = true;
 			Debug.Log ("確定");
-
-					for (int i = 0; i < 8; i++) {
-						for (int j = 0; j < 8-1; j++) {
-							for (int k = 0; k < 8; k++) {
-								Debug.Log (i + "," + j + "," + k + ", = "+ StageState.stage[i,j,k]);
-							}
-						}
-					}
 		} 
 	//	t.text = able_to_drop.ToString();
 	}
