@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DropBlocks : MonoBehaviour {
 
-	const float drop_interval = 2f;		//ブロックの落ちるスピード
+	const float drop_interval = 1f;		//ブロックの落ちるスピード
 	private float timer = 0f;		//タイマー
 	const int STAGE_SIZE_X = 8;		//stageのサイズ(8,7,8)
 	const int STAGE_SIZE_Y = 7;
@@ -56,7 +56,6 @@ public class DropBlocks : MonoBehaviour {
 			StageState.confirm_stage ();
 			confirmed = true;
 			finished_this_obj = true;
-			Debug.Log ("確定");
 		} 
 	//	t.text = able_to_drop.ToString();
 	}
