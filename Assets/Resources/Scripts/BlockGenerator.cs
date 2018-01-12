@@ -7,6 +7,7 @@ public class BlockGenerator : MonoBehaviour {
 	const float interval = 1f;
 	private float timer = 0f;
 	public GameObject T, O, S, I, L;
+	public Material red, green, blue, yellow;
 	private GameObject stage;
 	private Vector3 generateVec;	//生成されるブロックの座標(transform.position)
 	private Vector3 generatePos = new Vector3 (4, 6, 4);	//生成されるブロックの位置
@@ -60,13 +61,38 @@ public class BlockGenerator : MonoBehaviour {
 	void generate_block(GameObject block)
 	{
 		GameController.nowBlock = Instantiate (block, generateVec, Quaternion.identity) as GameObject;
+		colorChoice (GameController.nowBlock);
 		data_maker (block.name);
 	}
 
+	void colorChoice(GameObject block)
+	{
+		Material mat = randomM ();
+		foreach (Transform child in block.transform) {
+			child.GetComponent<Renderer> ().material = mat;
+		}
+	}
+
+	Material randomM(){
+		int r = Random.Range (0, 4);
+		switch (r) {
+		case 0:
+			return red;
+		case 1:
+			return blue;
+		case 2:
+			return green;
+		case 3:
+			return yellow;
+		default:
+			return red;
+		}
+	}
 
 
 	//それぞれのブロックに応じた形のベクトルを作成する
 	//回転中心はこの作成した配列の[0]になる
+	//配列の順番は関係ない
 	void data_maker(string name)
 	{
 		switch (name) {
