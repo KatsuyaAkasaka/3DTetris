@@ -6,12 +6,13 @@ public class BlockGenerator : MonoBehaviour {
 
 	const float interval = 1f;
 	private float timer = 0f;
-	public GameObject T;
+	public GameObject T, O, S, I, L;
 	private GameObject stage;
 	private Vector3 generateVec;	//生成されるブロックの座標(transform.position)
 	private Vector3 generatePos = new Vector3 (4, 6, 4);	//生成されるブロックの位置
 
 	Vector3[] blockpos;
+
 
 	// Use this for initialization
 	void Start () 
@@ -28,10 +29,29 @@ public class BlockGenerator : MonoBehaviour {
 		if (GameController.isGameStarted && DropBlocks.confirmed) {		//ブロックがintervalごとに生成される
 			timer += Time.deltaTime;
 			if (interval < timer) {		//時間になったら新たなブロック生成
-				generate_block (T);
+				generate_block (randomG());
 				timer = 0;
 				DropBlocks.confirmed = false;
 			}
+		}
+	}
+
+	GameObject randomG()
+	{
+		int r = Random.Range (1, 6);
+		switch (r) {
+		case 1:
+			return T;
+		case 2:
+			return O;
+		case 3:
+			return S;
+		case 4:
+			return I;
+		case 5:
+			return L;
+		default:
+			return T;
 		}
 	}
 
@@ -50,12 +70,46 @@ public class BlockGenerator : MonoBehaviour {
 	void data_maker(string name)
 	{
 		switch (name) {
-		case "T":
+		case "Block-T":
 			blockpos = new Vector3[] {
 				generatePos, 
 				generatePos + create_vec (0, -1, 0),
 				generatePos + create_vec (-1, -1, 0),
 				generatePos + create_vec (1, -1, 0)
+			};
+			break;
+
+		case "Block-O":
+			blockpos = new Vector3[] {
+				generatePos,
+				generatePos + create_vec (1, 0, 0),
+				generatePos + create_vec (0, -1, 0),
+				generatePos + create_vec (1, -1, 0)
+			};
+			break;
+
+		case "Block-S":
+			blockpos = new Vector3[] {
+				generatePos,
+				generatePos + create_vec (0, -1, 0),
+				generatePos + create_vec (-1, -1, 0),
+				generatePos + create_vec (-1, -2, 0)
+			};
+			break;
+		case "Block-I":
+			blockpos = new Vector3[] {
+				generatePos,
+				generatePos + create_vec (0, -1, 0),
+				generatePos + create_vec (0, -2, 0),
+				generatePos + create_vec (0, -3, 0)
+			};
+			break;
+		case "Block-L":
+			blockpos = new Vector3[] {
+				generatePos,
+				generatePos + create_vec (0, -1, 0),
+				generatePos + create_vec (0, -2, 0),
+				generatePos + create_vec (1, -2, 0)
 			};
 			break;
 		}
