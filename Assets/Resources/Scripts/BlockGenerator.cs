@@ -62,7 +62,6 @@ public class BlockGenerator : MonoBehaviour {
 
 		//static変数に代入して参照できるように
 		GameController.nowBlockPos = blockpos;
-		//stage_update (blockpos);
 	}
 
 

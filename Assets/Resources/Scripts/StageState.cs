@@ -102,7 +102,6 @@ public class StageState : MonoBehaviour {
 				for (int j = 0; j < tmpBlockPos.Length; j++) {
 					GameController.nowBlockPos [j] = tmpBlockPos [j];
 				}
-				Debug.Log ("called");
 				return false;
 			}
 		}
@@ -121,13 +120,13 @@ public class StageState : MonoBehaviour {
 			int posz = (int)GameController.nowBlockPos [i].z;
 			StageState.stage [posx, posy, posz] = 1;
 		}
-		for (int i = 0; i < STAGE_SIZE_X; i ++){
-			for (int j = 0; j < STAGE_SIZE_Y; j++){
-				for (int k = 0; k < STAGE_SIZE_Z; k++){
-					//Debug.Log(i + "," + j + "," + k + ", = " + stage[i,j,k]);
-				}
-			}
-		}
+//		for (int i = 0; i < STAGE_SIZE_X; i ++){
+//			for (int j = 0; j < STAGE_SIZE_Y; j++){
+//				for (int k = 0; k < STAGE_SIZE_Z; k++){
+//					//Debug.Log(i + "," + j + "," + k + ", = " + stage[i,j,k]);
+//				}
+//			}
+//		}
 	}
 
 	//ブロックの座標移動
