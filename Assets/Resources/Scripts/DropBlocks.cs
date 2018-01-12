@@ -40,7 +40,6 @@ public class DropBlocks : MonoBehaviour {
 	}
 
 
-	//drop_down()に関数が入らないのでUpdateが読み込まれていない？
 	//ステージを全探索して、現在落下中のブロックを見つけたら一つ下に落とす
 	void drop_down()
 	{
