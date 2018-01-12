@@ -129,15 +129,15 @@ public class StageState : MonoBehaviour {
 		//ブロックの置けるエリア内が全て1の時はlistにappend
 		List<int> filledList = new List<int>();
 		for (int i = 1; i < STAGE_SIZE_Y; i++){
+			int count = 0;
 			for (int j = 0; j < STAGE_SIZE_X; j++){
-				int count = 0;
 				for (int k = 0; k < STAGE_SIZE_Z; k++){
-					if (stage [i, j, k] == 1)
+					if (stage [j, i, k] == 1)
 						count++;
 				}
-				if(count == STAGE_SIZE_X * STAGE_SIZE_Z)
-					filledList.Add(j);
 			}
+			if (count > 29/*== STAGE_SIZE_X * STAGE_SIZE_Z*/)
+				filledList.Add(i);
 		}
 		return filledList;
 	}
