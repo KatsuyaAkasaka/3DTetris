@@ -94,7 +94,7 @@ public class StageState : MonoBehaviour {
 			int posy = (int)GameController.nowBlockPos[i].y;
 			int posz = (int)GameController.nowBlockPos[i].z;
 			if (i == 0) {
-				Debug.Log (posx + ", " + posy + "," + posz);
+				//Debug.Log (posx + ", " + posy + "," + posz);
 			}
 			//もし動かせなかったらもどす
 			if (stage[posx,posy,posz] == 1) {
@@ -102,6 +102,7 @@ public class StageState : MonoBehaviour {
 				for (int j = 0; j < tmpBlockPos.Length; j++) {
 					GameController.nowBlockPos [j] = tmpBlockPos [j];
 				}
+				Debug.Log ("called");
 				return false;
 			}
 		}
@@ -118,12 +119,12 @@ public class StageState : MonoBehaviour {
 			int posx = (int)GameController.nowBlockPos [i].x;
 			int posy = (int)GameController.nowBlockPos [i].y;
 			int posz = (int)GameController.nowBlockPos [i].z;
-			StageState.stage [posx, posy, posz] = 1000000;
+			StageState.stage [posx, posy, posz] = 1;
 		}
 		for (int i = 0; i < STAGE_SIZE_X; i ++){
 			for (int j = 0; j < STAGE_SIZE_Y; j++){
 				for (int k = 0; k < STAGE_SIZE_Z; k++){
-					Debug.Log(i + "," + j + "," + k + ", = " + stage[i,j,k]);
+					//Debug.Log(i + "," + j + "," + k + ", = " + stage[i,j,k]);
 				}
 			}
 		}
