@@ -18,13 +18,6 @@ public class DropBlocks : MonoBehaviour {
 	public static bool confirmed = true;		//stageが確定したらtrue。それによって新しくブロックが生成されたらfalse
 
 
-
-	void Start()
-	{
-		//test = GameObject.Find ("abletodrop");
-//		t = test.GetComponent<Text> ();
-	}
-
 	// Update is called once per frame
 	void Update () 
 	{
@@ -44,20 +37,18 @@ public class DropBlocks : MonoBehaviour {
 	void drop_down()
 	{
 		//落とせるかどうか確認
-		//何かに引っかかったら、2を全て1にして確定。落とせたら、座標移動させる
 		if (StageState.CouldMoveBlock ("drop")) {
-			//落とせたら、次のdrop_intervalまで暫定の2のままにさせておく
 			StageState.MoveBlock("drop");
-//			for (int i = 0; i < GameController.nowBlockPos.Length; i++) {
-//				Debug.Log (GameController.nowBlockPos [i].x + "," + GameController.nowBlockPos [i].y + "," + GameController.nowBlockPos [i].z);
-//			}
+		//無理ぽならステージ確定させて、消せるrawを消して、このオブジェクトの動作を終了させる
 		} else {
-			//落とせなかったらstageの2を全て1にしてfinish
 			StageState.confirm_stage ();
+			List<int> filledlist = StageState.findFill ();
+			foreach(int i in filledlist) {
+				StageState.DeleteRaw (filledlist [i]);
+			}
 			confirmed = true;
 			finished_this_obj = true;
 		} 
-	//	t.text = able_to_drop.ToString();
 	}
 
 }

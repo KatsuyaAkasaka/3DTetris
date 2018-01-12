@@ -5,8 +5,6 @@ using UnityEngine;
 public class StageState : MonoBehaviour {
 
 	public static int[,,] stage;	//それぞれx, y, zを表している
-	const int MAXIMUM_LENGTH = 6;	//ブロックが入れる部分
-	const int ARRAY_SIZE = 8;		//配列のサイズ
 	const int STAGE_SIZE_X = 8;		//stageのサイズ(8,7,8)
 	const int STAGE_SIZE_Y = 7;
 	const int STAGE_SIZE_Z = 8;
@@ -19,11 +17,11 @@ public class StageState : MonoBehaviour {
 
 	//stage init (all status are 0)
 	void Start () {
-		stage = new int[ARRAY_SIZE, ARRAY_SIZE-1, ARRAY_SIZE];
-		for (int i = 0; i < ARRAY_SIZE; i++) {
-			for (int j = 0; j < ARRAY_SIZE-1; j++) {
-				for (int k = 0; k < ARRAY_SIZE; k++) {
-					if(i == 0 || i == ARRAY_SIZE-1 || j == 0 || k == 0 || k == ARRAY_SIZE-1){
+		stage = new int[STAGE_SIZE_X, STAGE_SIZE_Y, STAGE_SIZE_Z];
+		for (int i = 0; i < STAGE_SIZE_X; i++) {
+			for (int j = 0; j < STAGE_SIZE_Y; j++) {
+				for (int k = 0; k < STAGE_SIZE_Z; k++) {
+					if(i == 0 || i == STAGE_SIZE_X-1 || j == 0 || k == 0 || k == STAGE_SIZE_Z-1){
 						stage[i, j, k] = 1;		//外壁はalways1
 					}
 					else {
@@ -93,9 +91,7 @@ public class StageState : MonoBehaviour {
 			int posx = (int)GameController.nowBlockPos[i].x;
 			int posy = (int)GameController.nowBlockPos[i].y;
 			int posz = (int)GameController.nowBlockPos[i].z;
-			if (i == 0) {
-				//Debug.Log (posx + ", " + posy + "," + posz);
-			}
+
 			//もし動かせなかったらもどす
 			if (stage[posx,posy,posz] == 1) {
 				//ダメなら保存したtmpを入れて終わり
@@ -109,7 +105,6 @@ public class StageState : MonoBehaviour {
 		return true;
 	}
 
-	//stageに現在書かれている2を全て1にしてステージ情報を確定させる
 	//システムの座標の移動
 	//ブロックの座標の移動はmoveBlock
 	public static void confirm_stage() 
@@ -127,6 +122,24 @@ public class StageState : MonoBehaviour {
 //				}
 //			}
 //		}
+	}
+
+	public static List<int> findFill()
+	{
+		//ブロックの置けるエリア内が全て1の時はlistにappend
+		List<int> filledList = new List<int>();
+		for (int i = 1; i < STAGE_SIZE_Y; i++){
+			for (int j = 0; j < STAGE_SIZE_X; j++){
+				int count = 0;
+				for (int k = 0; k < STAGE_SIZE_Z; k++){
+					if (stage [i, j, k] == 1)
+						count++;
+				}
+				if(count == STAGE_SIZE_X * STAGE_SIZE_Z)
+					filledList.Add(j);
+			}
+		}
+		return filledList;
 	}
 
 	//ブロックの座標移動
@@ -155,6 +168,23 @@ public class StageState : MonoBehaviour {
 			break;
 		default:
 			break;
+		}
+	}
+
+	public static void DeleteRaw(int raw)
+	{
+		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
+			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
+				stage [i, raw, j] = 0;
+			}
+		}
+		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
+			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
+				for (int k = raw + 1; k < STAGE_SIZE_Y; k++) {
+					stage [i, k - 1, j] = stage [i, k, j];
+					stage [i, k, j] = 0;
+				}
+			}
 		}
 	}
 		

@@ -27,7 +27,7 @@ public class BlockGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (GameController.isGameStarted && DropBlocks.confirmed) {		//ブロックがintervalごとに生成される
+		if (GameController.isGameStarted && DropBlocks.confirmed) {		//ステージが確定したらinterval秒後に生成
 			timer += Time.deltaTime;
 			if (interval < timer) {		//時間になったら新たなブロック生成
 				generate_block (randomG());
