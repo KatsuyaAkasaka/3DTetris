@@ -40,7 +40,7 @@ public class StageState : MonoBehaviour {
 	public static bool CouldMoveBlock(string str)
 	{
 		//一度tmpに保存
-		Vector3[] tmpBlockPos = new Vector3[4];
+		Vector3[] tmpBlockPos = new Vector3[GameController.nowBlockPos.Length];
 		for (int i = 0; i < tmpBlockPos.Length; i++) {
 			tmpBlockPos [i] = GameController.nowBlockPos [i];
 		}
@@ -86,7 +86,6 @@ public class StageState : MonoBehaviour {
 				}
 				GameController.nowBlockPos [i] = GameController.nowBlockPos [0] + new Vector3 (ansx, rerativey, ansz);		
 				break;
-
 
 			default:
 				break;
