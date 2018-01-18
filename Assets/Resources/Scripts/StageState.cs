@@ -129,7 +129,7 @@ public class StageState : MonoBehaviour {
 						count++;
 				}
 			}
-			if (count > 30/*== STAGE_SIZE_X * STAGE_SIZE_Z*/)
+			if (count == STAGE_SIZE_X * STAGE_SIZE_Z)
 				filledList.Add(i);
 		}
 		return filledList;
