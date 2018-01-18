@@ -115,13 +115,6 @@ public class StageState : MonoBehaviour {
 			int posz = (int)GameController.nowBlockPos [i].z;
 			StageState.stage [posx, posy, posz] = 1;
 		}
-//		for (int i = 0; i < STAGE_SIZE_X; i ++){
-//			for (int j = 0; j < STAGE_SIZE_Y; j++){
-//				for (int k = 0; k < STAGE_SIZE_Z; k++){
-//					//Debug.Log(i + "," + j + "," + k + ", = " + stage[i,j,k]);
-//				}
-//			}
-//		}
 	}
 
 	public static List<int> findFill()
@@ -136,7 +129,7 @@ public class StageState : MonoBehaviour {
 						count++;
 				}
 			}
-			if (count > 29/*== STAGE_SIZE_X * STAGE_SIZE_Z*/)
+			if (count > 30/*== STAGE_SIZE_X * STAGE_SIZE_Z*/)
 				filledList.Add(i);
 		}
 		return filledList;
@@ -173,19 +166,24 @@ public class StageState : MonoBehaviour {
 
 	public static void DeleteRaw(int raw)
 	{
-		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
-			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
+
+				for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
+					for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
 				stage [i, raw, j] = 0;
-			}
-		}
-		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
-			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
-				for (int k = raw + 1; k < STAGE_SIZE_Y; k++) {
-					stage [i, k - 1, j] = stage [i, k, j];
-					stage [i, k, j] = 0;
+					}
 				}
-			}
-		}
+//		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
+//			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
+//				for (int k = raw; k < STAGE_SIZE_Y-1; k++) {
+//					stage [i, k, j] = stage [i, k+1, j];
+//				}
+//			}
+//		}
+//		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
+//			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
+//				stage [i, STAGE_SIZE_Y - 1, j] = 0;
+//			}
+//		}
 	}
 		
 }

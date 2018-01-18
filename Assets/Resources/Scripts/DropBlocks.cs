@@ -49,20 +49,24 @@ public class DropBlocks : MonoBehaviour
 		} else {
 			StageState.confirm_stage ();
 			List<int> filledlist = StageState.findFill ();
-			foreach (int i in filledlist) {
-				Debug.Log (i);
-				//システム的削除
-				StageState.DeleteRaw (filledlist [i]);
-				//物理的削除
-				StartCoroutine (DeleteBlocks.delete (filledlist [i]));
+			foreach(int i in filledlist) {
+				//システム的削除(Out of Range Error)
+				StageState.DeleteRaw (i);
+				//物理的削除(Out of Range Error)
+				StartCoroutine (DeleteBlocks.delete (i));
 			}
-//			foreach (Transform t in this.gameObject.transform) {
-//				Debug.Log ("p = " + t.transform.position);
-//				Debug.Log ("lp = " + t.transform.localPosition);
-//			}
-//			Debug.Log (this.gameObject.transform.position);
+
 			confirmed = true;
 			finished_this_obj = true;
+			for (int i = 1; i < STAGE_SIZE_X-1; i ++){
+				for (int j = 1; j < STAGE_SIZE_Y; j++){
+					for (int k = 1; k < STAGE_SIZE_Z-1; k++){
+						if(StageState.stage[i,j,k] != 0)
+							Debug.Log(i + "," + j + "," + k + ", = " + StageState.stage[i,j,k]);
+					}
+				}
+			}
+			Debug.Log ("-------------------------------");
 		}
 
 	}
