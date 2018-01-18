@@ -167,23 +167,19 @@ public class StageState : MonoBehaviour {
 	public static void DeleteRaw(int raw)
 	{
 
-				for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
-					for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
-				stage [i, raw, j] = 0;
-					}
+
+		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
+			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
+				for (int k = raw; k < STAGE_SIZE_Y-1; k++) {
+					stage [i, k, j] = stage [i, k+1, j];
 				}
-//		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
-//			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
-//				for (int k = raw; k < STAGE_SIZE_Y-1; k++) {
-//					stage [i, k, j] = stage [i, k+1, j];
-//				}
-//			}
-//		}
-//		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
-//			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
-//				stage [i, STAGE_SIZE_Y - 1, j] = 0;
-//			}
-//		}
+			}
+		}
+		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
+			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
+				stage [i, STAGE_SIZE_Y - 1, j] = 0;
+			}
+		}
 	}
 		
 }

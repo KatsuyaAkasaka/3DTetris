@@ -49,11 +49,13 @@ public class DropBlocks : MonoBehaviour
 		} else {
 			StageState.confirm_stage ();
 			List<int> filledlist = StageState.findFill ();
+			int count = 0;
 			foreach(int i in filledlist) {
 				//システム的削除(Out of Range Error)
-				StageState.DeleteRaw (i);
+				StageState.DeleteRaw (i-count);
 				//物理的削除(Out of Range Error)
-				StartCoroutine (DeleteBlocks.delete (i));
+				StartCoroutine (DeleteBlocks.delete (i-count));
+				count++;
 			}
 
 			confirmed = true;
