@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 	private Vector3 touchStartPos;
 	private Vector3 touchPos;
 
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -101,7 +102,8 @@ public class PlayerController : MonoBehaviour
 		return Direction;
 	}
 
-	void ResetPos(){
+	void ResetPos ()
+	{
 		touchStartPos = touchPos;
 	}
 }

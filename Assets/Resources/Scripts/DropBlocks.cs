@@ -28,7 +28,8 @@ public class DropBlocks : MonoBehaviour
 	//finished_this_objのstatic変数
 
 
-	void Start(){
+	void Start ()
+	{
 	}
 
 
@@ -39,7 +40,7 @@ public class DropBlocks : MonoBehaviour
 			if (!confirmed) {
 				timer += Time.deltaTime;
 				if (timer > drop_interval) {		//stage確定してからdrop_interval秒後にdrop_down
-					StartCoroutine(drop_down ());
+					StartCoroutine (drop_down ());
 					timer = 0f;
 				}
 			}
@@ -65,9 +66,9 @@ public class DropBlocks : MonoBehaviour
 
 			List<int> filledlist = StageState.findFill ();
 
-			List<Transform> drop_blocks = new List<Transform>();
+			List<Transform> drop_blocks = new List<Transform> ();
 			GameObject[] blocks = GameObject.FindGameObjectsWithTag ("Block");
-			foreach(int i in filledlist) {
+			foreach (int i in filledlist) {
 				//システム的削除
 				StageState.DeleteRaw (i);
 
@@ -79,7 +80,7 @@ public class DropBlocks : MonoBehaviour
 							Destroy (t.gameObject);
 						} 
 						if (t.position.y > -0.2f + i * 0.08f - 0.02f) {
-							drop_blocks.Add(t);
+							drop_blocks.Add (t);
 						}
 					}
 				}
@@ -112,10 +113,10 @@ public class DropBlocks : MonoBehaviour
 
 	}
 
-	IEnumerator drop_coroutin(Transform t)
+	IEnumerator drop_coroutin (Transform t)
 	{
 		int i = 0;
-		while(i < 10){
+		while (i < 10) {
 			t.position -= new Vector3 (0f, 0.08f / (float)10, 0f);
 			yield return new WaitForSeconds (1f);
 			i++;

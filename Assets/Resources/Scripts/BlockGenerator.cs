@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockGenerator : MonoBehaviour {
+public class BlockGenerator : MonoBehaviour
+{
 
 	const float interval = 1f;
 	private float timer = 0f;
 	public GameObject T, O, S, I, L;
 	public Material red, green, blue, yellow;
 	private GameObject stage;
-	private Vector3 generateVec;	//生成されるブロックの座標(transform.position)
-	private Vector3 generatePos = new Vector3 (4, 6, 4);	//生成されるブロックの位置
+	private Vector3 generateVec;
+	//生成されるブロックの座標(transform.position)
+	private Vector3 generatePos = new Vector3 (4, 6, 4);
+	//生成されるブロックの位置
 
 	Vector3[] blockpos;
 
 
 	// Use this for initialization
-	void Start () 
+	void Start ()
 	{
 		stage = (GameObject)Resources.Load ("Prefabs/Stage");
 		generateVec = stage.transform.Find ("generatePos").gameObject.transform.position;
@@ -25,12 +28,12 @@ public class BlockGenerator : MonoBehaviour {
 
 
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
 		if (GameController.isGameStarted && DropBlocks.confirmed) {		//ステージが確定したらinterval秒後に生成
 			timer += Time.deltaTime;
 			if (interval < timer) {		//時間になったら新たなブロック生成
-				generate_block (randomG());
+				generate_block (randomG ());
 				timer = 0;
 				DropBlocks.confirmed = false;
 				DropBlocks.finish_put = false;
@@ -38,7 +41,7 @@ public class BlockGenerator : MonoBehaviour {
 		}
 	}
 
-	GameObject randomG()
+	GameObject randomG ()
 	{
 		int r = Random.Range (1, 6);
 		switch (r) {
@@ -59,14 +62,14 @@ public class BlockGenerator : MonoBehaviour {
 
 
 	//blockがgeneratePosに生成される
-	void generate_block(GameObject block)
+	void generate_block (GameObject block)
 	{
 		GameController.nowBlock = Instantiate (block, generateVec, Quaternion.identity) as GameObject;
 		colorChoice (GameController.nowBlock);
 		data_maker (block.name);
 	}
 
-	void colorChoice(GameObject block)
+	void colorChoice (GameObject block)
 	{
 		Material mat = randomM ();
 		foreach (Transform child in block.transform) {
@@ -74,7 +77,8 @@ public class BlockGenerator : MonoBehaviour {
 		}
 	}
 
-	Material randomM(){
+	Material randomM ()
+	{
 		int r = Random.Range (0, 4);
 		switch (r) {
 		case 0:
@@ -94,7 +98,7 @@ public class BlockGenerator : MonoBehaviour {
 	//それぞれのブロックに応じた形のベクトルを作成する
 	//回転中心はこの作成した配列の[0]になる
 	//配列の順番は関係ない
-	void data_maker(string name)
+	void data_maker (string name)
 	{
 		switch (name) {
 		case "Block-T":
@@ -147,17 +151,8 @@ public class BlockGenerator : MonoBehaviour {
 
 
 	//ベクトルを作成
-	Vector3 create_vec(int x, int y, int z)
+	Vector3 create_vec (int x, int y, int z)
 	{
 		return new Vector3 (x, y, z);
 	}
-
-
-	//渡された配列に入っているベクトルの位置を2に書き換える
-//	void stage_update(Vector3[] ary)
-//	{
-//		for (int i = 0; i < ary.Length; i++) {
-//			StageState.stage [(int)(ary[i].x), (int)(ary[i].y), (int)(ary[i].z)] = 2;
-//		}
-//	}
 }
