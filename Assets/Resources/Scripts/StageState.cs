@@ -121,7 +121,7 @@ public class StageState : MonoBehaviour {
 	{
 		//ブロックの置けるエリア内が全て1の時はlistにappend
 		List<int> filledList = new List<int>();
-		for (int i = 1; i < STAGE_SIZE_Y; i++){
+		for (int i = STAGE_SIZE_Y-1; i >= 1; i--){
 			int count = 0;
 			for (int j = 0; j < STAGE_SIZE_X; j++){
 				for (int k = 0; k < STAGE_SIZE_Z; k++){
@@ -129,7 +129,7 @@ public class StageState : MonoBehaviour {
 						count++;
 				}
 			}
-			if (count == STAGE_SIZE_X * STAGE_SIZE_Z)
+			if (count /*== STAGE_SIZE_X * STAGE_SIZE_Z*/ > 30)
 				filledList.Add(i);
 		}
 		return filledList;
@@ -142,10 +142,10 @@ public class StageState : MonoBehaviour {
 	{
 		switch (direction) {
 		case "drop":
-			GameController.nowBlock.transform.position -= new Vector3 (0f, moveAmount, 0f);
+			GameController.nowBlock.transform.position += new Vector3 (0f, -moveAmount, 0f);
 			break;
 		case "left":
-			GameController.nowBlock.transform.position -= new Vector3 (moveAmount, 0f, 0f);
+			GameController.nowBlock.transform.position += new Vector3 (-moveAmount, 0f, 0f);
 			break;
 		case "right":
 			GameController.nowBlock.transform.position += new Vector3 (moveAmount, 0f, 0f);
@@ -154,7 +154,7 @@ public class StageState : MonoBehaviour {
 			GameController.nowBlock.transform.position += new Vector3 (0f, 0f, moveAmount);
 			break;
 		case "down":
-			GameController.nowBlock.transform.position -= new Vector3 (0f, 0f, moveAmount);
+			GameController.nowBlock.transform.position += new Vector3 (0f, 0f, -moveAmount);
 			break;
 		case "rotate_y":
 			GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 90);
