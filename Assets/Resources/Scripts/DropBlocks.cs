@@ -15,21 +15,20 @@ public class DropBlocks : MonoBehaviour
 	//stageのサイズ(8,7,8)
 	const int STAGE_SIZE_Y = 7;
 	const int STAGE_SIZE_Z = 8;
-	Vector3 down_amount = new Vector3 (0f, 0.08f, 0f);
-	private bool finished_this_obj = false;
 
 	bool isRunning = false;
 
-	float f = 0f;
 
 
 	public static bool confirmed = true;
-	//stageが確定したらtrue。それによって新しくブロックが生成されたらfalse
+	//blockが消え終わり、確定したらtrue。それによって新しくブロックが生成されたらfalse
+	private bool finished_this_obj = false;
+	//objectが置かれてそれが確定したらtrue
+	public static bool finish_put = true;
+	//finished_this_objのstatic変数
 
-	DeleteBlocks db;
 
 	void Start(){
-		db = GameObject.Find("GameManager").GetComponent<DeleteBlocks> ();
 	}
 
 
@@ -61,9 +60,11 @@ public class DropBlocks : MonoBehaviour
 				yield break;
 			isRunning = true;
 			StageState.confirm_stage ();
+
+			finish_put = true;
+
 			List<int> filledlist = StageState.findFill ();
 
-			List<Transform> destroy_blocks = new List<Transform> ();
 			List<Transform> drop_blocks = new List<Transform>();
 			GameObject[] blocks = GameObject.FindGameObjectsWithTag ("Block");
 			foreach(int i in filledlist) {
@@ -94,8 +95,10 @@ public class DropBlocks : MonoBehaviour
 				}
 				yield return new WaitForSeconds (next_block_interval);
 			}
+
 			finished_this_obj = true;
 			confirmed = true;
+
 //			for (int i = 1; i < STAGE_SIZE_X-1; i ++){
 //				for (int j = 1; j < STAGE_SIZE_Y; j++){
 //					for (int k = 1; k < STAGE_SIZE_Z-1; k++){

@@ -33,6 +33,7 @@ public class BlockGenerator : MonoBehaviour {
 				generate_block (randomG());
 				timer = 0;
 				DropBlocks.confirmed = false;
+				DropBlocks.finish_put = false;
 			}
 		}
 	}
