@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 				move ("rotate_x");
 			}
 			if (Input.GetKeyDown (KeyCode.Space)) {
-				move ("rotate_y");
+				move ("roll_right");
 			}
 
 

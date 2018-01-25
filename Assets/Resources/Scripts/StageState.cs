@@ -87,7 +87,13 @@ public class StageState : MonoBehaviour
 			int posy = (int)GameController.nowBlockPos [i].y;
 			int posz = (int)GameController.nowBlockPos [i].z;
 
-			//もし動かせなかったらもどす
+			//もし動かせないならもどす
+			if (posx < 0 || posy < 0 || posz < 0) {
+				for (int j = 0; j < tmpBlockPos.Length; j++) {
+					GameController.nowBlockPos [j] = tmpBlockPos [j];
+				}
+				return false;
+			}
 			if (stage [posx, posy, posz] == 1) {
 				//ダメなら保存したtmpを入れて終わり
 				for (int j = 0; j < tmpBlockPos.Length; j++) {
@@ -102,7 +108,7 @@ public class StageState : MonoBehaviour
 		for (int j = STAGE_SIZE_Y - 1; j >= 0; j--) {
 			for (int l = 0; l < STAGE_SIZE_X; l++) {
 
-				string minis = StageState.stage [l, j, 0] + " ";
+				string minis = StageState.stage [l, j, 1] + " ";
 				for (int i = 0; i < 4; i++) {
 					if (GameController.nowBlockPos[i].x == l && GameController.nowBlockPos[i].y == j) {
 						minis = "1 ";
@@ -165,8 +171,8 @@ public class StageState : MonoBehaviour
 
 			break;
 		case "roll_left":
-			//GameController.nowBlock.transform.RotateAround (GameController.nowBlockPos[0] + GameController.nowBlock.transform.position, Vector3.forward, -90);
-			//GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 270);
+			//GameController.nowBlock.transform.RotateAround (centerPos, Vector3.forward, -90);
+			//GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 90);
 			break;
 		default:
 			break;
