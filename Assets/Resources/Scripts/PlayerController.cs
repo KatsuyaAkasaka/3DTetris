@@ -7,7 +7,10 @@ public class PlayerController : MonoBehaviour
 
 
 	private Vector3 touchStartPos;
+	private Vector3 touchBeganPos;
 	private Vector3 touchPos;
+	private Vector3 touchEndPos;
+
 
 	// Use this for initialization
 	void Start ()
@@ -20,6 +23,7 @@ public class PlayerController : MonoBehaviour
 	{
 		//ステージが確定していたらユーザは操作不能状態にする
 		if (!DropBlocks.finish_put) {
+			//PC操作
 			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 				move ("left");
 			}
@@ -36,10 +40,11 @@ public class PlayerController : MonoBehaviour
 				move ("rotate_x");
 			}
 			if (Input.GetKeyDown (KeyCode.Space)) {
-				move ("rotate_y");
+				move ("roll_right");
 			}
 
-			Flick ();
+
+			Interaction ();
 
 
 		}
@@ -52,12 +57,13 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void Flick ()
+	void Interaction ()
 	{
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
 			touchStartPos = new Vector3 (Input.mousePosition.x,
 				Input.mousePosition.y,
 				Input.mousePosition.z);
+			touchBeganPos = touchStartPos;
 		}
 
 		if (Input.GetKey (KeyCode.Mouse0)) {
@@ -65,6 +71,19 @@ public class PlayerController : MonoBehaviour
 				Input.mousePosition.y,
 				Input.mousePosition.z);
 			move (GetDirection ());
+		}
+		if (Input.GetKeyUp (KeyCode.Mouse0)) {
+			touchEndPos = new Vector3 (Input.mousePosition.x,
+				Input.mousePosition.y,
+				Input.mousePosition.z);
+			if ((touchEndPos - touchBeganPos).sqrMagnitude < 10f) {
+				string key;
+				if (touchStartPos.x < Screen.width / 2)
+					key = "roll_left";
+				else
+					key = "roll_right";
+				move (key);
+			}
 		}
 	}
 
@@ -101,7 +120,8 @@ public class PlayerController : MonoBehaviour
 		return Direction;
 	}
 
-	void ResetPos(){
+	void ResetPos ()
+	{
 		touchStartPos = touchPos;
 	}
 }
