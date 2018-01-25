@@ -63,29 +63,15 @@ public class StageState : MonoBehaviour
 			case "down":
 				GameController.nowBlockPos [i] += new Vector3 (0, 0, -1);
 				break;
-			case "rotate_y":
-				int centerx = (int)GameController.nowBlockPos [0].x;
-				int centery = (int)GameController.nowBlockPos [0].y;
-				int centerz = (int)GameController.nowBlockPos [0].z;
-				int rerativex = (int)GameController.nowBlockPos [i].x - centerx;
-				int rerativey = (int)GameController.nowBlockPos [i].y - centery;
-				int rerativez = (int)GameController.nowBlockPos [i].z - centerz;
-				int ansx, ansz;
-				if (rerativex == 1) {
-					ansz = 1;
-				} else if (rerativex == -1) {
-					ansz = -1;
-				} else {
-					ansz = 0;
-				}
-				if (rerativez == 1) {
-					ansx = -1;
-				} else if (rerativez == -1) {
-					ansx = 1;
-				} else {
-					ansx = 0;
-				}
-				GameController.nowBlockPos [i] = GameController.nowBlockPos [0] + new Vector3 (ansx, rerativey, ansz);		
+			case "roll_right":
+				Debug.Log ("right");
+				//rotateBlock ("forward", i);
+				break;
+			case "roll_left":
+				Debug.Log ("left");
+				//rotateBlock ("forward", i);
+				//rotateBlock ("forward", i);
+				//rotateBlock ("forward", i);
 				break;
 
 			default:
@@ -119,24 +105,7 @@ public class StageState : MonoBehaviour
 			StageState.stage [posx, posy, posz] = 1;
 		}
 	}
-
-	public static List<int> findFill ()
-	{
-		//ブロックの置けるエリア内が全て1の時はlistにappend
-		List<int> filledList = new List<int> ();
-		for (int i = STAGE_SIZE_Y - 1; i >= 1; i--) {
-			int count = 0;
-			for (int j = 0; j < STAGE_SIZE_X; j++) {
-				for (int k = 0; k < STAGE_SIZE_Z; k++) {
-					if (stage [j, i, k] == 1)
-						count++;
-				}
-			}
-			if (count /*== STAGE_SIZE_X * STAGE_SIZE_Z*/ > 30)
-				filledList.Add (i);
-		}
-		return filledList;
-	}
+		
 
 	//ブロックの座標移動
 	//システムの座標は移動しない
@@ -159,18 +128,47 @@ public class StageState : MonoBehaviour
 		case "down":
 			GameController.nowBlock.transform.position += new Vector3 (0f, 0f, -moveAmount);
 			break;
-		case "rotate_y":
-			GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 90);
+		case "roll_right":
+			//GameController.nowBlock.transform.RotateAround (GameController.nowBlockPos[0], Vector3.forward, 90);
+			//GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 90);
+			break;
+		case "roll_left":
+			//GameController.nowBlock.transform.RotateAround (GameController.nowBlockPos[0], Vector3.forward, -90);
+			//GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 270);
 			break;
 		default:
 			break;
 		}
 	}
 
+
+
+
+	//一列揃ってるかどうかの判定
+	//return listに揃ってる行数を入れる
+	public static List<int> findFill ()
+	{
+		//ブロックの置けるエリア内が全て1の時はlistにappend
+		List<int> filledList = new List<int> ();
+		for (int i = STAGE_SIZE_Y - 1; i >= 1; i--) {
+			int count = 0;
+			for (int j = 0; j < STAGE_SIZE_X; j++) {
+				for (int k = 0; k < STAGE_SIZE_Z; k++) {
+					if (stage [j, i, k] == 1)
+						count++;
+				}
+			}
+			if (count /*== STAGE_SIZE_X * STAGE_SIZE_Z*/ > 30)
+				filledList.Add (i);
+		}
+		return filledList;
+	}
+
+
+	//引数で指定された行数一列を削除する
+	//objは削除しない
 	public static void DeleteRaw (int raw)
 	{
-
-
 		for (int i = 1; i < STAGE_SIZE_X - 1; i++) {
 			for (int j = 1; j < STAGE_SIZE_Z - 1; j++) {
 				for (int k = raw; k < STAGE_SIZE_Y - 1; k++) {
@@ -183,6 +181,27 @@ public class StageState : MonoBehaviour
 				stage [i, STAGE_SIZE_Y - 1, j] = 0;
 			}
 		}
+	}
+
+	//nowBlockPosを右に一回回転させる
+	public static void rotateBlock(string direction, int t){
+		int centerx = (int)GameController.nowBlockPos [0].x;
+		int centery = (int)GameController.nowBlockPos [0].y;
+		int centerz = (int)GameController.nowBlockPos [0].z;
+
+		int rerativex = (int)GameController.nowBlockPos [t].x - centerx;
+		int rerativey = (int)GameController.nowBlockPos [t].y - centery;
+		int rerativez = (int)GameController.nowBlockPos [t].z - centerz;
+		int ansx = 0, ansy = 0, ansz = 0;
+
+		if (direction == "forward") {
+			ansx = rerativey;
+			ansy = -rerativex;
+			ansz = rerativez;
+		}
+
+		GameController.nowBlockPos [t] = GameController.nowBlockPos [0] + new Vector3 (ansx, ansy, ansz);
+		Debug.Log (GameController.nowBlockPos [0] + new Vector3 (ansx, ansy, ansz));
 	}
 		
 }

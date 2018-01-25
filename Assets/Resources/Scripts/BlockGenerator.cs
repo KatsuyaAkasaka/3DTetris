@@ -12,10 +12,12 @@ public class BlockGenerator : MonoBehaviour
 	private GameObject stage;
 	private Vector3 generateVec;
 	//生成されるブロックの座標(transform.position)
-	private Vector3 generatePos = new Vector3 (4, 6, 4);
+	private Vector3 generatePos = new Vector3 (4, 5, 4);
 	//生成されるブロックの位置
 
 	Vector3[] blockpos;
+
+	public static string nowBlockName = "";
 
 
 	// Use this for initialization
@@ -66,7 +68,8 @@ public class BlockGenerator : MonoBehaviour
 	{
 		GameController.nowBlock = Instantiate (block, generateVec, Quaternion.identity) as GameObject;
 		colorChoice (GameController.nowBlock);
-		data_maker (block.name);
+		nowBlockName = block.name;
+		data_maker (nowBlockName);
 	}
 
 	void colorChoice (GameObject block)
@@ -104,9 +107,9 @@ public class BlockGenerator : MonoBehaviour
 		case "Block-T":
 			blockpos = new Vector3[] {
 				generatePos, 
-				generatePos + create_vec (0, -1, 0),
-				generatePos + create_vec (-1, -1, 0),
-				generatePos + create_vec (1, -1, 0)
+				generatePos + create_vec (0, 1, 0),
+				generatePos + create_vec (-1, 0, 0),
+				generatePos + create_vec (1, 0, 0)
 			};
 			break;
 
@@ -114,33 +117,33 @@ public class BlockGenerator : MonoBehaviour
 			blockpos = new Vector3[] {
 				generatePos,
 				generatePos + create_vec (1, 0, 0),
-				generatePos + create_vec (0, -1, 0),
-				generatePos + create_vec (1, -1, 0)
+				generatePos + create_vec (0, 1, 0),
+				generatePos + create_vec (1, 1, 0)
 			};
 			break;
 
 		case "Block-S":
 			blockpos = new Vector3[] {
 				generatePos,
-				generatePos + create_vec (0, -1, 0),
-				generatePos + create_vec (-1, -1, 0),
-				generatePos + create_vec (-1, -2, 0)
+				generatePos + create_vec (0, 1, 0),
+				generatePos + create_vec (-1, 0, 0),
+				generatePos + create_vec (-1, -1, 0)
 			};
 			break;
 		case "Block-I":
 			blockpos = new Vector3[] {
 				generatePos,
+				generatePos + create_vec (0, 1, 0),
 				generatePos + create_vec (0, -1, 0),
-				generatePos + create_vec (0, -2, 0),
-				generatePos + create_vec (0, -3, 0)
+				generatePos + create_vec (0, -2, 0)
 			};
 			break;
 		case "Block-L":
 			blockpos = new Vector3[] {
 				generatePos,
+				generatePos + create_vec (0, 1, 0),
 				generatePos + create_vec (0, -1, 0),
-				generatePos + create_vec (0, -2, 0),
-				generatePos + create_vec (1, -2, 0)
+				generatePos + create_vec (1, -1, 0)
 			};
 			break;
 		}
