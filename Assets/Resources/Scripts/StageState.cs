@@ -14,6 +14,12 @@ public class StageState : MonoBehaviour
 
 	const float moveAmount = 0.08f;
 
+	public static string charPos = "forward";
+	//自分がどこに今いるのか
+	//正面か後ろ: forward
+	//脇: side
+	//上下: updown
+
 	//(0,0,0)はステージの手前左下
 
 
@@ -64,14 +70,14 @@ public class StageState : MonoBehaviour
 				GameController.nowBlockPos [i] += new Vector3 (0, 0, -1);
 				break;
 			case "roll_right":
-				Debug.Log ("right");
-				//rotateBlock ("forward", i);
+				//Debug.Log ("right");
+				rotateBlock (charPos, i);
 				break;
 			case "roll_left":
-				Debug.Log ("left");
-				//rotateBlock ("forward", i);
-				//rotateBlock ("forward", i);
-				//rotateBlock ("forward", i);
+				//Debug.Log ("left");
+				rotateBlock (charPos, i);
+				rotateBlock (charPos, i);
+				rotateBlock (charPos, i);
 				break;
 
 			default:
@@ -89,7 +95,27 @@ public class StageState : MonoBehaviour
 				}
 				return false;
 			}
+
 		}
+
+		string s = "";
+		for (int j = STAGE_SIZE_Y - 1; j >= 0; j--) {
+			for (int l = 0; l < STAGE_SIZE_X; l++) {
+
+				string minis = StageState.stage [l, j, 0] + " ";
+				for (int i = 0; i < 4; i++) {
+					if (GameController.nowBlockPos[i].x == l && GameController.nowBlockPos[i].y == j) {
+						minis = "1 ";
+						break;
+					}
+				}
+				s += minis;
+			}
+			Debug.Log (s);
+			s = "";
+		}
+		Debug.Log ("----------------------");
+
 		//動かせたらnowBlockPosはそのままにしてtrue
 		return true;
 	}
@@ -129,11 +155,17 @@ public class StageState : MonoBehaviour
 			GameController.nowBlock.transform.position += new Vector3 (0f, 0f, -moveAmount);
 			break;
 		case "roll_right":
-			//GameController.nowBlock.transform.RotateAround (GameController.nowBlockPos[0], Vector3.forward, 90);
-			//GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 90);
+			Vector3 centerPos = new Vector3 ();
+			foreach (Transform t in GameController.nowBlock.transform) {
+				if (t.gameObject.tag == "Center") {
+					centerPos = t.position;
+				}
+			}
+			GameController.nowBlock.transform.RotateAround (centerPos, Vector3.forward, -90);
+
 			break;
 		case "roll_left":
-			//GameController.nowBlock.transform.RotateAround (GameController.nowBlockPos[0], Vector3.forward, -90);
+			//GameController.nowBlock.transform.RotateAround (GameController.nowBlockPos[0] + GameController.nowBlock.transform.position, Vector3.forward, -90);
 			//GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 270);
 			break;
 		default:
@@ -184,7 +216,9 @@ public class StageState : MonoBehaviour
 	}
 
 	//nowBlockPosを右に一回回転させる
-	public static void rotateBlock(string direction, int t){
+	public static void rotateBlock (string direction, int t)
+	{
+		
 		int centerx = (int)GameController.nowBlockPos [0].x;
 		int centery = (int)GameController.nowBlockPos [0].y;
 		int centerz = (int)GameController.nowBlockPos [0].z;
@@ -201,7 +235,7 @@ public class StageState : MonoBehaviour
 		}
 
 		GameController.nowBlockPos [t] = GameController.nowBlockPos [0] + new Vector3 (ansx, ansy, ansz);
-		Debug.Log (GameController.nowBlockPos [0] + new Vector3 (ansx, ansy, ansz));
+//		Debug.Log (GameController.nowBlockPos [0] + new Vector3 (ansx, ansy, ansz));
 	}
 		
 }

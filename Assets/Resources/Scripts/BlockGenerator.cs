@@ -76,7 +76,8 @@ public class BlockGenerator : MonoBehaviour
 	{
 		Material mat = randomM ();
 		foreach (Transform child in block.transform) {
-			child.GetComponent<Renderer> ().material = mat;
+			if(child.tag == "SmallBlock")
+				child.GetComponent<Renderer> ().material = mat;
 		}
 	}
 
@@ -117,8 +118,8 @@ public class BlockGenerator : MonoBehaviour
 			blockpos = new Vector3[] {
 				generatePos,
 				generatePos + create_vec (1, 0, 0),
-				generatePos + create_vec (0, 1, 0),
-				generatePos + create_vec (1, 1, 0)
+				generatePos + create_vec (0, -1, 0),
+				generatePos + create_vec (1, -1, 0)
 			};
 			break;
 

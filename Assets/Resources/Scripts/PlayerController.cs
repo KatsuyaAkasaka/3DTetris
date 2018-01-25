@@ -57,11 +57,6 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void roll (string key)
-	{
-		Debug.Log ("called roll func");
-	}
-
 	void Interaction ()
 	{
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
@@ -77,19 +72,19 @@ public class PlayerController : MonoBehaviour
 				Input.mousePosition.z);
 			move (GetDirection ());
 		}
-//		if (Input.GetKeyUp (KeyCode.Mouse0)) {
-//			touchEndPos = new Vector3 (Input.mousePosition.x,
-//				Input.mousePosition.y,
-//				Input.mousePosition.z);
-//			if (touchEndPos == touchBeganPos) {
-//				string key;
-//				if (touchStartPos.x < Screen.width / 2)
-//					key = "left";
-//				else
-//					key = "right";
-//				roll (key);
-//			}
-//		}
+		if (Input.GetKeyUp (KeyCode.Mouse0)) {
+			touchEndPos = new Vector3 (Input.mousePosition.x,
+				Input.mousePosition.y,
+				Input.mousePosition.z);
+			if ((touchEndPos - touchBeganPos).sqrMagnitude < 10f) {
+				string key;
+				if (touchStartPos.x < Screen.width / 2)
+					key = "roll_left";
+				else
+					key = "roll_right";
+				move (key);
+			}
+		}
 	}
 
 	string GetDirection ()
