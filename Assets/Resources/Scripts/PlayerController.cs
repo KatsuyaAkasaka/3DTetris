@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 				move ("down");
 			}
 			if (Input.GetKeyDown (KeyCode.KeypadEnter)) {
-				move ("rotate_x");
+				move ("roll_left");
 			}
 			if (Input.GetKeyDown (KeyCode.Space)) {
 				move ("roll_right");
