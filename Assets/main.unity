@@ -654,9 +654,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4136588358263228, guid: 4075f170466744a2e935c4f5b7c6a33a, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
+    - target: {fileID: 1121297268845938, guid: 4075f170466744a2e935c4f5b7c6a33a, type: 2}
+      propertyPath: m_TagString
+      value: stage
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4075f170466744a2e935c4f5b7c6a33a, type: 2}

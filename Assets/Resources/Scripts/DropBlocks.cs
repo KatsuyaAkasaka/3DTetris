@@ -15,7 +15,6 @@ public class DropBlocks : MonoBehaviour
 	//stageのサイズ(8,7,8)
 	const int STAGE_SIZE_Y = 7;
 	const int STAGE_SIZE_Z = 8;
-	const float MOVE_AMOUNT = 0.04f;
 
 	bool isRunning = false;
 
@@ -77,10 +76,10 @@ public class DropBlocks : MonoBehaviour
 
 				foreach (GameObject block in blocks) {
 					foreach (Transform t in block.transform) {
-						if (t.position.y > -0.1f + (i - 1) * MOVE_AMOUNT - 0.02f && t.position.y < -0.1f + (i - 1) * MOVE_AMOUNT + 0.02f) { 
+						if (t.position.y > BlockGenerator.undery + (i - 1) * BlockGenerator.move_amount - 0.02f && t.position.y < BlockGenerator.undery + (i - 1) * BlockGenerator.move_amount + 0.02f) { 
 							Destroy (t.gameObject);
 						} 
-						if (t.position.y > -0.1f + i * MOVE_AMOUNT - 0.02f) {
+						if (t.position.y > BlockGenerator.undery + i * BlockGenerator.move_amount - 0.02f) {
 							drop_blocks.Add (t);
 						}
 					}
@@ -89,7 +88,7 @@ public class DropBlocks : MonoBehaviour
 				if (drop_blocks.Count > 0) {
 					int times = 0;
 					while (times < 10) {
-						drop_blocks.ForEach ((b) => b.position -= new Vector3 (0f, MOVE_AMOUNT / (float)10, 0f));
+						drop_blocks.ForEach ((b) => b.position -= new Vector3 (0f, BlockGenerator.move_amount / (float)10, 0f));
 						yield return new WaitForSeconds (0.03f);
 						times++;
 					}
@@ -118,7 +117,7 @@ public class DropBlocks : MonoBehaviour
 	{
 		int i = 0;
 		while (i < 10) {
-			t.position -= new Vector3 (0f, MOVE_AMOUNT / (float)10, 0f);
+			t.position -= new Vector3 (0f, BlockGenerator.move_amount / (float)10, 0f);
 			yield return new WaitForSeconds (1f);
 			i++;
 		}

@@ -7,6 +7,8 @@ TagManager:
   - Block
   - Center
   - SmallBlock
+  - stge
+  - stage
   layers:
   - Default
   - TransparentFX
