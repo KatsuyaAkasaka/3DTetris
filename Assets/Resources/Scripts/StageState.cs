@@ -171,8 +171,14 @@ public class StageState : MonoBehaviour
 
 			break;
 		case "roll_left":
-			//GameController.nowBlock.transform.RotateAround (centerPos, Vector3.forward, -90);
-			//GameController.nowBlock.transform.Rotate (new Vector3 (0, 1, 0), 90);
+			centerPos = new Vector3 ();
+			foreach (Transform t in GameController.nowBlock.transform) {
+				if (t.gameObject.tag == "Center") {
+					centerPos = t.position;
+				}
+			}
+			GameController.nowBlock.transform.RotateAround (centerPos, Vector3.forward, 90);
+
 			break;
 		default:
 			break;
