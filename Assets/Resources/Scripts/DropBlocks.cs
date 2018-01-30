@@ -15,6 +15,7 @@ public class DropBlocks : MonoBehaviour
 	//stageのサイズ(8,7,8)
 	const int STAGE_SIZE_Y = 7;
 	const int STAGE_SIZE_Z = 8;
+	const float MOVE_AMOUNT = 0.04f;
 
 	bool isRunning = false;
 
@@ -76,10 +77,10 @@ public class DropBlocks : MonoBehaviour
 
 				foreach (GameObject block in blocks) {
 					foreach (Transform t in block.transform) {
-						if (t.position.y > -0.2f + (i - 1) * 0.08f - 0.02f && t.position.y < -0.2f + (i - 1) * 0.08f + 0.02f) { 
+						if (t.position.y > -0.1f + (i - 1) * MOVE_AMOUNT - 0.02f && t.position.y < -0.1f + (i - 1) * MOVE_AMOUNT + 0.02f) { 
 							Destroy (t.gameObject);
 						} 
-						if (t.position.y > -0.2f + i * 0.08f - 0.02f) {
+						if (t.position.y > -0.1f + i * MOVE_AMOUNT - 0.02f) {
 							drop_blocks.Add (t);
 						}
 					}
@@ -88,7 +89,7 @@ public class DropBlocks : MonoBehaviour
 				if (drop_blocks.Count > 0) {
 					int times = 0;
 					while (times < 10) {
-						drop_blocks.ForEach ((b) => b.position -= new Vector3 (0f, 0.08f / (float)10, 0f));
+						drop_blocks.ForEach ((b) => b.position -= new Vector3 (0f, MOVE_AMOUNT / (float)10, 0f));
 						yield return new WaitForSeconds (0.03f);
 						times++;
 					}
@@ -100,15 +101,15 @@ public class DropBlocks : MonoBehaviour
 			finished_this_obj = true;
 			confirmed = true;
 
-//			for (int i = 1; i < STAGE_SIZE_X-1; i ++){
-//				for (int j = 1; j < STAGE_SIZE_Y; j++){
-//					for (int k = 1; k < STAGE_SIZE_Z-1; k++){
-//						if(StageState.stage[i,j,k] != 0)
-//							Debug.Log(i + "," + j + "," + k + ", = " + StageState.stage[i,j,k]);
-//					}
-//				}
-//			}
-//			Debug.Log ("-------------------------------");
+			//			for (int i = 1; i < STAGE_SIZE_X-1; i ++){
+			//				for (int j = 1; j < STAGE_SIZE_Y; j++){
+			//					for (int k = 1; k < STAGE_SIZE_Z-1; k++){
+			//						if(StageState.stage[i,j,k] != 0)
+			//							Debug.Log(i + "," + j + "," + k + ", = " + StageState.stage[i,j,k]);
+			//					}
+			//				}
+			//			}
+			//			Debug.Log ("-------------------------------");
 		}
 
 	}
@@ -117,7 +118,7 @@ public class DropBlocks : MonoBehaviour
 	{
 		int i = 0;
 		while (i < 10) {
-			t.position -= new Vector3 (0f, 0.08f / (float)10, 0f);
+			t.position -= new Vector3 (0f, MOVE_AMOUNT / (float)10, 0f);
 			yield return new WaitForSeconds (1f);
 			i++;
 		}

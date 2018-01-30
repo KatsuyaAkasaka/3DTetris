@@ -19,12 +19,18 @@ public class BlockGenerator : MonoBehaviour
 
 	public static string nowBlockName = "";
 
+	public static float undery, upy;
+
 
 	// Use this for initialization
 	void Start ()
 	{
 		stage = (GameObject)Resources.Load ("Prefabs/Stage");
 		generateVec = stage.transform.Find ("generatePos").gameObject.transform.position;
+		undery = stage.transform.Find("bottomPos").position.y;
+		upy = stage.transform.Find ("generatePos").position.y;
+		Debug.Log (upy);
+		Debug.Log (undery);
 	}
 
 

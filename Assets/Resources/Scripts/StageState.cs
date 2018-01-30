@@ -12,7 +12,7 @@ public class StageState : MonoBehaviour
 	const int STAGE_SIZE_Y = 7;
 	const int STAGE_SIZE_Z = 8;
 
-	const float moveAmount = 0.08f;
+	const float moveAmount = 0.04f;
 
 	public static string charPos = "forward";
 	//自分がどこに今いるのか
