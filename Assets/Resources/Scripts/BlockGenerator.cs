@@ -23,6 +23,8 @@ public class BlockGenerator : MonoBehaviour
 	public static float upy, undery;
 	public static float move_amount;
 
+	private bool clicked = false;
+
 
 	// Use this for initialization
 	void Start ()
@@ -35,21 +37,24 @@ public class BlockGenerator : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (GameController.isGameStarted && !setup) {
-			stage = GameObject.FindGameObjectWithTag ("stage");
-			generateVec = stage.transform.Find ("generatePos").gameObject.transform.position;
-			upy = stage.transform.Find ("generatePos").position.y;
-			undery = stage.transform.Find ("bottomPos").position.y;
-			move_amount = (upy - undery) / 5;
-			setup = true;
-		}
-		if (GameController.isGameStarted && DropBlocks.confirmed) {		//ステージが確定したらinterval秒後に生成
-			timer += Time.deltaTime;
-			if (interval < timer) {		//時間になったら新たなブロック生成
-				generate_block (randomG ());
-				timer = 0;
-				DropBlocks.confirmed = false;
-				DropBlocks.finish_put = false;
+		if (GameController.isGameStarted) {
+			if (!setup) {
+				stage = GameObject.FindGameObjectWithTag ("stage");
+				generateVec = stage.transform.Find ("generatePos").gameObject.transform.position;
+				upy = stage.transform.Find ("generatePos").position.y;
+				undery = stage.transform.Find ("bottomPos").position.y;
+				move_amount = (upy - undery) / 5;
+				setup = true;
+			}
+			if (DropBlocks.confirmed && clicked) {		//ステージが確定したらinterval秒後に生成
+				timer += Time.deltaTime;
+				if (interval < timer) {		//時間になったら新たなブロック生成
+					generate_block (randomG ());
+					timer = 0;
+					DropBlocks.confirmed = false;
+					DropBlocks.finish_put = false;
+					clicked = false;
+				}
 			}
 		}
 	}
@@ -162,6 +167,10 @@ public class BlockGenerator : MonoBehaviour
 
 		//static変数に代入して参照できるように
 		GameController.nowBlockPos = blockpos;
+	}
+
+	public void OnClick(){
+		clicked = true;
 	}
 
 
